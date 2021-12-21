@@ -1,0 +1,105 @@
+﻿@page "/invoices"
+
+@using System
+@using System.Threading;
+
+@using BlazorApp.Data
+
+@inject IInvoiceService InvoiceServ
+
+<h1>Pay Invoices</h1>
+
+<p>Distribute a received payment among some invoices.</p>
+
+@if (invoices == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Total (Rand)</th>
+                <th>Paid (Rand)</th>
+                <th>Balance (Rand)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var invoice in invoices)
+            {
+                <tr>
+                    <td>@invoice.Date.ToShortDateString()</td>
+                    <td id="invoice-@invoice.Id-total" >@invoice.TotalAmount</td>
+                    <td id="invoice-@invoice.Id-paid" >@invoice.AmountPaid</td>
+                    <td id="invoice-@invoice.Id-balance" >@invoice.Balance</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<p>
+    <label>
+        Amount Received (Rand):
+        <input id="amount-received-input" @bind="AmountReceived" />
+    </label>
+</p>
+<p>
+    Make sure you use '@Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator' for the decimal separator.
+</p>
+
+<button id="distribute-amount-button" class="btn btn-primary" @onclick="@DistributePaymentAndUpdateInvoices">Distribute</button>
+
+@code {
+    private Invoice[] invoices;
+
+    private Double AmountReceived { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        @* Fetch the invoices to display. For the test this just returns a
+           randomized list of 5 invoices. Assume it works and doesn't need
+           fixing *@
+        invoices = await InvoiceServ.GetInvoicesAsync();
+    }
+
+    private async Task DistributePaymentAndUpdateInvoices() {
+        DistributePaymentToInvoices();
+
+        @* "Update" the invoices. For the test this doesn't do anything.
+            Assume it works as it should and doesn't need fixing. *@
+        await InvoiceServ.SaveInvoicesAsync(invoices);
+    }
+
+    @* Distribute the amount received among the Invoices. Starting with the
+       earliest invoice by date, pay the amount received towards that invoice.
+       If the amount received is greater than the amount needed to pay the
+       entire balance of that invoice, move on to the next earliest invoice,
+       and use the remaining amount received to pay that invoice, and so on,
+       until the amount received is all distributed among the invoices.
+
+       If the balance on all invoices is paid, and there is still some of the
+       amount received left over, the leftover amount should just be paid to
+       the latest invoice by date, even if it overpays the invoice (making the
+       balance negative for that invoice).
+    *@
+    private void DistributePaymentToInvoices() {
+        Double amountLeft = AmountReceived;
+
+        for (int i = 0; i < invoices.Length; i++) {
+            var invoice = invoices[i];
+
+            if (invoice.Balance > 0) {
+                if (i == (invoices.Length - 1)) {
+                    invoice.AmountPaid = amountLeft;
+                } else {
+                    invoice.AmountPaid = Math.Min(invoice.Balance, amountLeft);
+                    amountLeft -= invoice.AmountPaid;
+                    invoice.Balance = 0;
+                }
+            }
+        }
+    }
+}
