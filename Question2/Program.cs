@@ -11,15 +11,15 @@ namespace Question2
         {
             if (args != null 
                 && args.Length == 2 
-                && double.TryParse(args[0], NumberStyles.Any, CultureInfo.InvariantCulture, out var lat) 
-                && double.TryParse(args[1], NumberStyles.Any, CultureInfo.InvariantCulture, out var lon))
+                && double.TryParse(args[0], NumberStyles.Any, CultureInfo.InvariantCulture, out _) 
+                && double.TryParse(args[1], NumberStyles.Any, CultureInfo.InvariantCulture, out _))
             {
                 var sp = new ServiceCollection()
                     .AddHttpClient()
                     .AddTransient<GetCountryHandler>()
                     .BuildServiceProvider();
 
-                await sp.GetRequiredService<GetCountryHandler>().GetCountryAsync(1, 2);
+                Console.WriteLine(await sp.GetRequiredService<GetCountryHandler>().GetCountryAsync(args[0], args[1]));
             }
             else
                 Console.WriteLine("Invalid arguments.");
