@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Question2
@@ -14,9 +15,16 @@ namespace Question2
                 && double.TryParse(args[0], NumberStyles.Any, CultureInfo.InvariantCulture, out _) 
                 && double.TryParse(args[1], NumberStyles.Any, CultureInfo.InvariantCulture, out _))
             {
+                var config = new ConfigurationBuilder()
+                    .SetBasePath(AppContext.BaseDirectory)
+                    .AddJsonFile("appsettings.json", false, true)
+                    .Build();
+
                 var sp = new ServiceCollection()
-                    .AddHttpClient()
+                    .AddHttpClient()                    
                     .AddTransient<GetCountryHandler>()
+                    .AddOptions()
+                    .Configure<GoogleOptions>(ops => config.GetSection("Google").Bind(ops))
                     .BuildServiceProvider();
 
                 Console.WriteLine(await sp.GetRequiredService<GetCountryHandler>().GetCountryAsync(args[0], args[1]));

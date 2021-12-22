@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -10,19 +11,22 @@ namespace Question2
 {
     internal class GetCountryHandler
     {
-        // Note: In a production system, this ApiKey should be loaded from an appsettings.json file.
-        // This particular key will eventually become inactive.
-        const string ApiKey = "AIzaSyAOT2CYIlZW0nifJQpZiJ-rIRNGX1YnhPw";
         private readonly HttpClient _httpClient;
+        private readonly IOptions<GoogleOptions> _options;
 
-        public GetCountryHandler(HttpClient httpClient)
+        public GetCountryHandler(
+            HttpClient httpClient,
+            IOptions<GoogleOptions> options)
         {
             _httpClient = httpClient;
+            _options = options;
         }
 
         public async Task<string> GetCountryAsync(string latitude, string longitude)
         {
-            var response = await _httpClient.GetAsync($"https://maps.googleapis.com/maps/api/geocode/json?key={ApiKey}&latlng={latitude},{longitude}&sensor=false");
+            var apikey = _options.Value.GeocodingApiKey;
+
+            var response = await _httpClient.GetAsync($"https://maps.googleapis.com/maps/api/geocode/json?key={apikey}&latlng={latitude},{longitude}&sensor=false");
             response.EnsureSuccessStatusCode();
 
             var rootObj = JsonSerializer.Deserialize<Rootobject>(await response.Content.ReadAsStringAsync());
