@@ -169,7 +169,7 @@ namespace Q3aTests
                 "<td id=\"invoice-2-paid\">10</td>"
             );
             component.Find("#invoice-2-balance").MarkupMatches(
-                "<td id=\"invoice-1-balance\">90</td>"
+                "<td id=\"invoice-2-balance\">90</td>"
             );
 
         }
@@ -268,7 +268,7 @@ namespace Q3aTests
                 "<td id=\"invoice-2-paid\">100</td>"
             );
             component.Find("#invoice-2-balance").MarkupMatches(
-                "<td id=\"invoice-1-balance\">0</td>"
+                "<td id=\"invoice-2-balance\">0</td>"
             );
 
             component.Find("#invoice-3-paid").MarkupMatches(
@@ -328,7 +328,7 @@ namespace Q3aTests
                 "<td id=\"invoice-2-paid\">100</td>"
             );
             component.Find("#invoice-2-balance").MarkupMatches(
-                "<td id=\"invoice-1-balance\">0</td>"
+                "<td id=\"invoice-2-balance\">0</td>"
             );
 
             component.Find("#invoice-3-paid").MarkupMatches(

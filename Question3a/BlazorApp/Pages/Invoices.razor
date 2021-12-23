@@ -87,19 +87,33 @@ else
     *@
     private void DistributePaymentToInvoices() {
         Double amountLeft = AmountReceived;
+        Double remainder = 0;
 
-        for (int i = 0; i < invoices.Length; i++) {
-            var invoice = invoices[i];
+        if (invoices.Count() == 0)
+            return; //Nothing to pay.
 
-            if (invoice.Balance > 0) {
-                if (i == (invoices.Length - 1)) {
-                    invoice.AmountPaid = amountLeft;
-                } else {
-                    invoice.AmountPaid = Math.Min(invoice.Balance, amountLeft);
-                    amountLeft -= invoice.AmountPaid;
-                    invoice.Balance = 0;
-                }
+        foreach (var invoice in invoices.OrderBy(x => x.Date))
+        {
+            if(amountLeft <= invoice.Balance) //will also handle 0 amountLeft
+            {
+                invoice.Balance = invoice.Balance - amountLeft;
+                invoice.AmountPaid += amountLeft;
+                break; //No more left to pay.
+            }
+            else //greater than
+            {
+                remainder = amountLeft - invoice.Balance;
+                invoice.Balance = 0;
+                invoice.AmountPaid = invoice.TotalAmount;
             }
         }
+
+        if (remainder > 0)
+        {
+            //var lastInvoice = invoices.OrderBy(x => x.Date).Last();
+
+            invoices.OrderBy(x => x.Date).Last().Balance -= remainder;
+
+        }        
     }
 }
