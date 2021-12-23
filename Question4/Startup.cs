@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MudBlazor.Services;
 using Question4.Configuration;
 using Question4.Data;
 using Question4.Services;
@@ -30,6 +31,7 @@ namespace Question4
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddMudServices();
             services.AddHttpClient();
             services.AddSingleton<INewsService, NewsService>();
             services.AddOptions();
