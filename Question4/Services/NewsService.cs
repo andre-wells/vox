@@ -25,7 +25,7 @@ namespace Question4.Services
 
         public async Task<IEnumerable<NewsItem>> GetNewsEventsAsync()
         {
-            var response = await _httpClient.GetAsync("https://pastebin.com/raw/7RJzFSqW");
+            var response = await _httpClient.GetAsync(_options.Value.BaseUrl);
             response.EnsureSuccessStatusCode();
 
             return await JsonSerializer.DeserializeAsync<IEnumerable<NewsItem>>(
