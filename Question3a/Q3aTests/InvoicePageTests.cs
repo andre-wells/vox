@@ -119,6 +119,9 @@ namespace Q3aTests
             component.Find("#amount-received-input").Change("50");
             component.Find("#distribute-amount-button").Click();
 
+            component.Find("#invoice-1-paid").MarkupMatches(
+                "<td id=\"invoice-1-paid\">100</td>"
+            );
             component.Find("#invoice-1-balance").MarkupMatches(
                 "<td id=\"invoice-1-balance\">100</td>"
             );
@@ -155,8 +158,15 @@ namespace Q3aTests
             component.Find("#amount-received-input").Change("50");
             component.Find("#distribute-amount-button").Click();
 
+            component.Find("#invoice-1-paid").MarkupMatches(
+                "<td id=\"invoice-1-paid\">100</td>"
+            );
             component.Find("#invoice-1-balance").MarkupMatches(
                 "<td id=\"invoice-1-balance\">100</td>"
+            );
+
+            component.Find("#invoice-2-paid").MarkupMatches(
+                "<td id=\"invoice-2-paid\">10</td>"
             );
             component.Find("#invoice-2-balance").MarkupMatches(
                 "<td id=\"invoice-1-balance\">90</td>"
@@ -194,8 +204,15 @@ namespace Q3aTests
             component.Find("#amount-received-input").Change("200");
             component.Find("#distribute-amount-button").Click();
 
+            component.Find("#invoice-1-paid").MarkupMatches(
+                "<td id=\"invoice-1-paid\">200</td>"
+            );
             component.Find("#invoice-1-balance").MarkupMatches(
                 "<td id=\"invoice-1-balance\">0</td>"
+            );
+
+            component.Find("#invoice-2-paid").MarkupMatches(
+                "<td id=\"invoice-2-paid\">60</td>"
             );
             component.Find("#invoice-2-balance").MarkupMatches(
                 "<td id=\"invoice-1-balance\">40</td>"
@@ -240,11 +257,22 @@ namespace Q3aTests
             component.Find("#amount-received-input").Change("500");
             component.Find("#distribute-amount-button").Click();
 
+            component.Find("#invoice-1-paid").MarkupMatches(
+                "<td id=\"invoice-1-paid\">200</td>"
+            );
             component.Find("#invoice-1-balance").MarkupMatches(
                 "<td id=\"invoice-1-balance\">0</td>"
             );
+
+            component.Find("#invoice-2-paid").MarkupMatches(
+                "<td id=\"invoice-2-paid\">100</td>"
+            );
             component.Find("#invoice-2-balance").MarkupMatches(
                 "<td id=\"invoice-1-balance\">0</td>"
+            );
+
+            component.Find("#invoice-3-paid").MarkupMatches(
+                "<td id=\"invoice-3-paid\">260</td>"
             );
             component.Find("#invoice-3-balance").MarkupMatches(
                 "<td id=\"invoice-3-balance\">440</td>"
@@ -289,11 +317,22 @@ namespace Q3aTests
             component.Find("#amount-received-input").Change("1000");
             component.Find("#distribute-amount-button").Click();
 
+            component.Find("#invoice-1-paid").MarkupMatches(
+                "<td id=\"invoice-1-paid\">200</td>"
+            );
             component.Find("#invoice-1-balance").MarkupMatches(
                 "<td id=\"invoice-1-balance\">0</td>"
             );
+
+            component.Find("#invoice-2-paid").MarkupMatches(
+                "<td id=\"invoice-2-paid\">100</td>"
+            );
             component.Find("#invoice-2-balance").MarkupMatches(
                 "<td id=\"invoice-1-balance\">0</td>"
+            );
+
+            component.Find("#invoice-3-paid").MarkupMatches(
+                "<td id=\"invoice-3-paid\">700</td>"
             );
             component.Find("#invoice-3-balance").MarkupMatches(
                 "<td id=\"invoice-3-balance\">-60</td>"
