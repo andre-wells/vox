@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Q4", "Q4", "{A0058E57-0060-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Question4", "Question4\Question4.csproj", "{3575874B-C975-429D-A53C-7031CE9000C0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Q5", "Q5", "{AA38D518-CFCB-4759-8819-E5CD3E5C851B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
