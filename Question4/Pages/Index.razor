@@ -1,7 +1,45 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+@using Question4.Services
+@using Question4.Data
+@inject INewsService NewsService
 
-Welcome to your new app.
+<MudMainContent>
+    <MudContainer MaxWidth="MaxWidth.Medium">
+@if (newItems == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Headline</th>
+                <th>Text</th>                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var newsItem in newItems)
+            {
+                <tr>
+                    <td>@newsItem.Headline</td>
+                    <td>@newsItem.Text</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+    </MudContainer>
+</MudMainContent>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+@code {
+    private IEnumerable<NewsItem> newItems;
+
+    protected override async Task OnInitializedAsync()
+    {
+        newItems = await NewsService.GetNewsEventsAsync();
+    }
+
+}
