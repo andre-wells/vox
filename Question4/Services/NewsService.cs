@@ -29,7 +29,7 @@ namespace Question4.Services
             response.EnsureSuccessStatusCode();
 
             return await JsonSerializer.DeserializeAsync<IEnumerable<NewsItem>>(
-                await response.Content.ReadAsStreamAsync());
+                await response.Content.ReadAsStreamAsync(), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
     }
 }

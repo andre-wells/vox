@@ -1,0 +1,43 @@
+﻿@page "/news"
+
+@using Question4.Services
+@using Question4.Data
+@inject INewsService NewsService
+
+<h3>News Items</h3>
+
+
+@if (newItems == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Headline</th>
+                <th>Text</th>                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var newsItem in newItems)
+            {
+                <tr>
+                    <td>@newsItem.Headline</td>
+                    <td>@newsItem.Text</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<NewsItem> newItems;
+
+    protected override async Task OnInitializedAsync()
+    {
+        newItems = await NewsService.GetNewsEventsAsync();
+    }
+
+}
