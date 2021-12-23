@@ -215,7 +215,7 @@ namespace Q3aTests
                 "<td id=\"invoice-2-paid\">60</td>"
             );
             component.Find("#invoice-2-balance").MarkupMatches(
-                "<td id=\"invoice-1-balance\">40</td>"
+                "<td id=\"invoice-2-balance\">40</td>"
             );
 
         }
