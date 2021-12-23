@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Question4.Configuration;
 using Question4.Data;
+using Question4.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +30,10 @@ namespace Question4
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            services.AddHttpClient();
+            services.AddSingleton<INewsService, NewsService>();
+            services.AddOptions();
+            services.Configure<NewsServiceOptions>(ops => Configuration.GetSection("NewsService").Bind(ops));            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
